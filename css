@@ -288,3 +288,4 @@ img{ max-width:100%; display:block; border-radius: 10px; }
 @media (prefers-reduced-motion: reduce){
   *{ transition: none !important; scroll-behavior: auto !important; }
 }
+.
