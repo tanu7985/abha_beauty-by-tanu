@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abha Beauty — Skin Tone &amp; Undertone Analysis by Tanu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-owner">by Tanu</span>
+      <h1 class="brand-logo">Abha Beauty</h1>
+      <span class="brand-tagline">know your tone. own your glow.</span>
+    </div>
+    <nav class="site-nav">
+      <button class="nav-link" data-target="analyze">Analyze</button>
+      <button class="nav-link" data-target="palette">Your Palette</button>
+      <button class="nav-link" data-target="guide">Style Guide</button>
+      <button class="nav-link" data-target="reviews">Reviews</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Undertone-first beauty</p>
+    <h2>Every face has a formula.<br>Let's find yours.</h2>
+    <p class="hero-copy">Upload a well-lit photo and Abha Beauty reads your skin's depth and undertone
+      right in your browser — then hands you a matching makeup kit and a clothing palette
+      that actually flatters you. No filters, no guesswork.</p>
+    <button class="btn btn-primary" id="heroCta">Start My Analysis</button>
+  </div>
+  <div class="hero-mirror">
+    <div class="mirror-frame">
+      <img src="https://placehold.co/420x420/f3d9d0/3b1f2b?font=playfair-display&text=Your+Glow" alt="Mirror preview placeholder" id="mirrorImg">
+    </div>
+    <div class="mirror-stand"></div>
+  </div>
+</section>
+
+<!-- ================= ANALYZE ================= -->
+<section id="analyze" class="section analyze-section">
+  <p class="eyebrow">Step 01</p>
+  <h2 class="section-title">Scan your skin</h2>
+  <p class="section-copy">Upload a clear, makeup-free selfie taken in daylight. We sample pixels straight
+    from your cheeks and forehead — nothing leaves your device.</p>
+
+  <div class="analyze-grid">
+    <div class="upload-card">
+      <label for="photoInput" class="upload-drop" id="uploadDrop">
+        <span class="upload-icon">📷</span>
+        <span class="upload-text">Click to upload a photo</span>
+        <span class="upload-hint">JPG or PNG, good lighting works best</span>
+      </label>
+      <input type="file" id="photoInput" accept="image/*" hidden>
+      <canvas id="photoCanvas" hidden></canvas>
+      <img id="previewImg" class="preview-img" hidden alt="Your uploaded photo">
+      <button class="btn btn-primary" id="analyzeBtn" disabled>Analyze My Skin</button>
+      <p class="disclaimer">Photo analysis is a friendly estimate, not a professional or medical
+        assessment — lighting and camera colour can shift results.</p>
+    </div>
+
+    <div class="manual-card">
+      <p class="manual-title">Prefer to choose manually?</p>
+      <div class="manual-group">
+        <span class="manual-label">Depth</span>
+        <div class="chip-row" id="depthChips">
+          <button class="chip" data-depth="fair">Fair</button>
+          <button class="chip" data-depth="light-medium">Light–Medium</button>
+          <button class="chip" data-depth="medium-tan">Medium–Tan</button>
+          <button class="chip" data-depth="deep">Deep</button>
+        </div>
+      </div>
+      <div class="manual-group">
+        <span class="manual-label">Undertone</span>
+        <div class="chip-row" id="undertoneChips">
+          <button class="chip" data-undertone="warm">Warm</button>
+          <button class="chip" data-undertone="cool">Cool</button>
+          <button class="chip" data-undertone="neutral">Neutral</button>
+        </div>
+      </div>
+      <button class="btn btn-secondary" id="manualBtn">Show My Palette</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESULT PALETTE STRIP (signature element) ================= -->
+<section id="palette" class="section palette-section" hidden>
+  <p class="eyebrow">Step 02</p>
+  <h2 class="section-title">Your result</h2>
+  <div class="result-summary">
+    <div class="result-badge">
+      <span class="result-label">Skin depth</span>
+      <span class="result-value" id="resultDepth">—</span>
+    </div>
+    <div class="result-badge">
+      <span class="result-label">Undertone</span>
+      <span class="result-value" id="resultUndertone">—</span>
+    </div>
+    <div class="result-badge swatch-badge">
+      <span class="result-label">Sampled tone</span>
+      <span class="color-dot" id="sampledDot"></span>
+    </div>
+  </div>
+
+  <!-- The palette strip: an actual eyeshadow-palette motif that lights up -->
+  <div class="palette-strip" id="paletteStrip">
+    <div class="well" data-well="fair"></div>
+    <div class="well" data-well="light-medium"></div>
+    <div class="well" data-well="medium-tan"></div>
+    <div class="well" data-well="deep"></div>
+    <div class="well warm-well" data-well="warm"></div>
+    <div class="well cool-well" data-well="cool"></div>
+    <div class="well neutral-well" data-well="neutral"></div>
+  </div>
+
+  <div class="reco-grid">
+    <div class="reco-card">
+      <h3>Makeup to reach for</h3>
+      <ul id="makeupList" class="reco-list"></ul>
+    </div>
+    <div class="reco-card">
+      <h3>Foundation &amp; base notes</h3>
+      <p id="foundationNote" class="reco-note"></p>
+    </div>
+    <div class="reco-card">
+      <h3>Clothing colours that love you back</h3>
+      <div class="color-swatch-row" id="clothingSwatches"></div>
+    </div>
+    <div class="reco-card">
+      <h3>Colours to use sparingly</h3>
+      <div class="color-swatch-row" id="avoidSwatches"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STYLE GUIDE ================= -->
+<section id="guide" class="section guide-section">
+  <p class="eyebrow">Reference</p>
+  <h2 class="section-title">The undertone cheat sheet</h2>
+  <div class="guide-grid">
+    <article class="guide-card">
+      <img src="https://placehold.co/360x220/f0c9a0/3b1f2b?text=Warm+Undertone" alt="Warm undertone example">
+      <h3>Warm</h3>
+      <p>Veins look greenish, gold jewellery flatters more than silver, and you tan easily.
+        Lean into peach, coral, gold and olive.</p>
+    </article>
+    <article class="guide-card">
+      <img src="https://placehold.co/360x220/d9c3d6/3b1f2b?text=Cool+Undertone" alt="Cool undertone example">
+      <h3>Cool</h3>
+      <p>Veins look bluish, silver jewellery flatters more than gold, and you burn before you tan.
+        Lean into berry, rose, icy blue and true white.</p>
+    </article>
+    <article class="guide-card">
+      <img src="https://placehold.co/360x220/e3d3c4/3b1f2b?text=Neutral+Undertone" alt="Neutral undertone example">
+      <h3>Neutral</h3>
+      <p>Both metals work, veins read as a blend of green and blue. You have the most freedom —
+        soft jewel tones and muted earth tones both work beautifully.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section id="reviews" class="section reviews-section">
+  <p class="eyebrow">Community</p>
+  <h2 class="section-title">Tell us how it went</h2>
+  <p class="section-copy">Loved your palette? Think we got your undertone wrong? Leave a note for Tanu
+    and the Abha Beauty community.</p>
+
+  <form id="reviewForm" class="review-form">
+    <div class="form-row">
+      <label for="reviewName">Your name</label>
+      <input type="text" id="reviewName" placeholder="e.g. Priya S." required>
+    </div>
+    <div class="form-row">
+      <label>Rating</label>
+      <div class="star-row" id="starRow">
+        <button type="button" class="star" data-star="1">★</button>
+        <button type="button" class="star" data-star="2">★</button>
+        <button type="button" class="star" data-star="3">★</button>
+        <button type="button" class="star" data-star="4">★</button>
+        <button type="button" class="star" data-star="5">★</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="reviewText">Your review</label>
+      <textarea id="reviewText" rows="3" placeholder="Share your experience..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Post Review</button>
+  </form>
+
+  <div class="reviews-list" id="reviewsList"></div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p class="footer-logo">Abha Beauty</p>
+  <p>Curated with care by Tanu · Undertone-first beauty for every face</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
