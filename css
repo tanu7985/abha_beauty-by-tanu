@@ -1,4 +1,4 @@
-/* =========================================================
+t/* =========================================================
    ABHA BEAUTY — design tokens
    Background : #FAF3EE (vanity ivory)
    Ink        : #3B1F2B (lipstick maroon-brown)
@@ -288,4 +288,3 @@ img{ max-width:100%; display:block; border-radius: 10px; }
 @media (prefers-reduced-motion: reduce){
   *{ transition: none !important; scroll-behavior: auto !important; }
 }
-.
